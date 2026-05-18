@@ -1,0 +1,310 @@
+---
+/**
+ * Layout.astro — Layout principal del portafolio
+ * Todos los metadatos SEO, configuración de fuentes y scripts globales
+ * se definen aquí. Importa este layout en cada página.
+ */
+
+interface Props {
+  title?: string;
+  description?: string;
+}
+
+const {
+  title = "Ignacio Anabalón Gutiérrez — Desarrollador Web",
+  description = "Portfolio de Ignacio Anabalón Gutiérrez. Estudiante de Ingeniería Informática y Desarrollador Web enfocado en crear soluciones web modernas y escalables.",
+} = Astro.props;
+---
+
+<!doctype html>
+<html lang="es" class="scroll-smooth">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <meta name="description" content={description} />
+    <meta name="author" content="Ignacio Anabalón Gutiérrez" />
+
+    <!-- Open Graph / Social -->
+    <meta property="og:title" content={title} />
+    <meta property="og:description" content={description} />
+    <meta property="og:type" content="website" />
+
+    <!-- Favicon placeholder (reemplaza con tu propio favicon) -->
+    <link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+
+    <!-- 
+      Google Fonts — Fuentes cuidadosamente seleccionadas:
+      · "Syne" para headings: moderna, geométrica con carácter propio
+      · "DM Mono" para detalles de código/etiquetas: técnica y elegante
+      · "Inter" sólo para cuerpo de texto (legibilidad)
+    -->
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link
+      href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=DM+Mono:ital,wght@0,300;0,400;1,300&family=Inter:wght@300;400;500&display=swap"
+      rel="stylesheet"
+    />
+
+    <title>{title}</title>
+  </head>
+
+  <body
+    class="bg-zinc-950 text-slate-300 font-inter antialiased selection:bg-teal-500/30 selection:text-teal-300"
+  >
+    <!-- Ruido de fondo sutil para añadir textura al tema oscuro -->
+    <div
+      class="fixed inset-0 pointer-events-none z-0 opacity-[0.03]"
+      style="background-image: url(\"data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)'/%3E%3C/svg%3E\"); background-size: 180px;"
+    >
+    </div>
+
+    <!-- Gradiente ambiental de fondo (sutil, no intrusivo) -->
+    <div
+      class="fixed inset-0 pointer-events-none z-0"
+      style="background: radial-gradient(ellipse 80% 50% at 50% -10%, rgba(20,184,166,0.07) 0%, transparent 70%);"
+    >
+    </div>
+
+    <!-- Contenido principal -->
+    <main class="relative z-10">
+      <slot />
+    </main>
+
+    <!-- Barra de navegación lateral (escritorio) / top (mobile) -->
+    <nav
+      id="navbar"
+      class="fixed top-0 left-0 right-0 z-50 transition-all duration-500"
+    >
+      <div
+        class="max-w-6xl mx-auto px-6 py-4 flex items-center justify-between"
+      >
+        <!-- Logo / Iniciales -->
+        <a
+          href="#hero"
+          class="font-syne font-bold text-lg text-slate-100 tracking-tight hover:text-teal-400 transition-colors duration-300"
+        >
+          IA<span class="text-teal-400">.</span>
+        </a>
+
+        <!-- Links de navegación -->
+        <ul class="hidden md:flex items-center gap-8">
+          {
+            [
+              { href: "#sobre-mi", label: "Sobre mí" },
+              { href: "#experiencia", label: "Experiencia" },
+              { href: "#habilidades", label: "Habilidades" },
+              { href: "#contacto", label: "Contacto" },
+            ].map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="text-sm font-mono text-slate-400 hover:text-teal-400 transition-colors duration-300 tracking-wide"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+
+        <!-- Botón mobile (hamburguesa) -->
+        <button
+          id="menu-toggle"
+          class="md:hidden text-slate-400 hover:text-teal-400 transition-colors"
+          aria-label="Abrir menú"
+        >
+          <svg
+            class="w-5 h-5"
+            fill="none"
+            stroke="currentColor"
+            viewBox="0 0 24 24"
+          >
+            <path
+              stroke-linecap="round"
+              stroke-linejoin="round"
+              stroke-width="2"
+              d="M4 6h16M4 12h16M4 18h16"></path>
+          </svg>
+        </button>
+      </div>
+
+      <!-- Menú mobile desplegable -->
+      <div
+        id="mobile-menu"
+        class="hidden md:hidden bg-zinc-900/95 backdrop-blur-sm border-t border-zinc-800"
+      >
+        <ul class="flex flex-col px-6 py-4 gap-4">
+          {
+            [
+              { href: "#sobre-mi", label: "Sobre mí" },
+              { href: "#experiencia", label: "Experiencia" },
+              { href: "#habilidades", label: "Habilidades" },
+              { href: "#contacto", label: "Contacto" },
+            ].map((link) => (
+              <li>
+                <a
+                  href={link.href}
+                  class="mobile-nav-link text-slate-300 hover:text-teal-400 transition-colors font-mono text-sm"
+                >
+                  {link.label}
+                </a>
+              </li>
+            ))
+          }
+        </ul>
+      </div>
+    </nav>
+
+    <!-- ===================================================
+         SCRIPT GLOBAL: Scroll animations + Navbar behavior
+         Usa IntersectionObserver nativo (sin librerías externas)
+         para activar clases de animación de Tailwind.
+         ===================================================== -->
+    <script>
+      // ─── Navbar: añadir fondo al hacer scroll ───────────────
+      const navbar = document.getElementById("navbar");
+      window.addEventListener("scroll", () => {
+        if (window.scrollY > 20) {
+          navbar?.classList.add(
+            "bg-zinc-950/80",
+            "backdrop-blur-md",
+            "border-b",
+            "border-zinc-800/50"
+          );
+        } else {
+          navbar?.classList.remove(
+            "bg-zinc-950/80",
+            "backdrop-blur-md",
+            "border-b",
+            "border-zinc-800/50"
+          );
+        }
+      });
+
+      // ─── Menú mobile toggle ──────────────────────────────────
+      const menuToggle = document.getElementById("menu-toggle");
+      const mobileMenu = document.getElementById("mobile-menu");
+      menuToggle?.addEventListener("click", () => {
+        mobileMenu?.classList.toggle("hidden");
+      });
+      // Cerrar menú al hacer click en un link
+      document.querySelectorAll(".mobile-nav-link").forEach((link) => {
+        link.addEventListener("click", () =>
+          mobileMenu?.classList.add("hidden")
+        );
+      });
+
+      // ─── Scroll-triggered animations (IntersectionObserver) ──
+      /**
+       * Cómo funciona:
+       * 1. Los elementos animables llevan la clase `animate-on-scroll`
+       *    y están inicialmente invisible/desplazados (via CSS custom).
+       * 2. Cuando el elemento entra al viewport, el observer
+       *    añade la clase `is-visible` que dispara la transición.
+       *
+       * Para animar un nuevo elemento sólo agrega:
+       *   class="animate-on-scroll [data-delay='100']"
+       */
+      const observerOptions: IntersectionObserverInit = {
+        threshold: 0.12, // 12% del elemento visible para disparar
+        rootMargin: "0px 0px -50px 0px",
+      };
+
+      const observer = new IntersectionObserver((entries) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const target = entry.target as HTMLElement;
+            const delay = target.dataset.delay ?? "0";
+
+            setTimeout(() => {
+              target.classList.add("is-visible");
+            }, parseInt(delay));
+
+            observer.unobserve(target); // Animar sólo una vez
+          }
+        });
+      }, observerOptions);
+
+      // Observar todos los elementos con la clase `animate-on-scroll`
+      document.querySelectorAll(".animate-on-scroll").forEach((el) => {
+        observer.observe(el);
+      });
+    </script>
+
+    <!-- Estilos globales para el sistema de animaciones -->
+    <style is:global>
+      /* Fuentes personalizadas */
+      .font-syne {
+        font-family: "Syne", sans-serif;
+      }
+      .font-mono {
+        font-family: "DM Mono", monospace;
+      }
+      .font-inter {
+        font-family: "Inter", sans-serif;
+      }
+
+      /* ── Sistema de animación de scroll ──────────────────────
+         Estado inicial: invisible y desplazado hacia abajo.
+         Clase `.is-visible` activa la transición a estado final. */
+      .animate-on-scroll {
+        opacity: 0;
+        transform: translateY(28px);
+        transition:
+          opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+
+      .animate-on-scroll.is-visible {
+        opacity: 1;
+        transform: translateY(0);
+      }
+
+      /* Variante: animar desde la izquierda */
+      .animate-from-left {
+        opacity: 0;
+        transform: translateX(-28px);
+        transition:
+          opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .animate-from-left.is-visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Variante: animar desde la derecha */
+      .animate-from-right {
+        opacity: 0;
+        transform: translateX(28px);
+        transition:
+          opacity 0.65s cubic-bezier(0.22, 1, 0.36, 1),
+          transform 0.65s cubic-bezier(0.22, 1, 0.36, 1);
+      }
+      .animate-from-right.is-visible {
+        opacity: 1;
+        transform: translateX(0);
+      }
+
+      /* Scroll suave nativo */
+      html {
+        scroll-behavior: smooth;
+      }
+
+      /* Personalización del scrollbar */
+      ::-webkit-scrollbar {
+        width: 6px;
+      }
+      ::-webkit-scrollbar-track {
+        background: #09090b;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #3f3f46;
+        border-radius: 3px;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #14b8a6;
+      }
+    </style>
+  </body>
+</html>

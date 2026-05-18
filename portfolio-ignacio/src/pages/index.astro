@@ -1,0 +1,58 @@
+---
+/**
+ * index.astro — Página principal del portafolio (One-Page)
+ *
+ * Este archivo actúa como el "ensamblador" de componentes.
+ * Cada sección es un componente independiente importado aquí.
+ *
+ * ── Cómo agregar una nueva sección ───────────────────────────
+ * 1. Crea el archivo en `src/components/NuevaSección.astro`
+ * 2. Importalo aquí: import NuevaSección from '../components/NuevaSección.astro'
+ * 3. Úsalo en el orden que desees dentro del <Layout>
+ *
+ * ── Cómo crear una nueva PÁGINA independiente ─────────────────
+ * 1. Crea `src/pages/nueva-pagina.astro`
+ * 2. Importa el Layout: import Layout from '../layouts/Layout.astro'
+ * 3. Accede en: /nueva-pagina
+ * (Ver README.md o el final de este archivo para más detalle)
+ * ──────────────────────────────────────────────────────────────
+ */
+
+// Layout principal
+import Layout from '../layouts/Layout.astro';
+
+// Componentes de sección (en orden de aparición)
+import Hero       from '../components/Hero.astro';
+import Education  from '../components/Education.astro';
+import Experience from '../components/Experience.astro';
+import Skills     from '../components/Skills.astro';
+import Contact    from '../components/Contact.astro';
+
+// ── Aquí puedes añadir más secciones en el futuro:
+// import Projects   from '../components/Projects.astro';
+// import Certifications from '../components/Certifications.astro';
+// import Blog       from '../components/BlogPreview.astro';
+---
+
+<Layout
+  title="Ignacio Anabalón Gutiérrez — Desarrollador Web"
+  description="Portfolio de Ignacio Anabalón Gutiérrez. Estudiante de Ingeniería Informática y Desarrollador Web enfocado en soluciones modernas y escalables."
+>
+  <!-- ═══════════════════════════════════════════════════════
+       SECCIONES DE LA ONE-PAGE
+       El orden aquí determina el orden visual en la página.
+       ═══════════════════════════════════════════════════════ -->
+
+  <Hero />
+  <Education />
+  <Experience />
+  <Skills />
+
+  <!-- Ejemplo de cómo agregar secciones futuras:
+  <Projects />
+  <Certifications />
+  <Blog />
+  -->
+
+  <Contact />
+</Layout>

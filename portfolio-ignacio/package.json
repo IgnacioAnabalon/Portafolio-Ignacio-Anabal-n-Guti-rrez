@@ -1,0 +1,20 @@
+{
+  "name": "portfolio-ignacio-anabalon",
+  "version": "1.0.0",
+  "description": "Portafolio web personal — Ignacio Anabalón Gutiérrez",
+  "private": true,
+  "scripts": {
+    "dev":     "astro dev",
+    "build":   "astro build",
+    "preview": "astro preview",
+    "astro":   "astro"
+  },
+  "dependencies": {
+    "astro": "^4.0.0",
+    "@astrojs/tailwind": "^5.0.0",
+    "tailwindcss": "^3.4.0"
+  },
+  "engines": {
+    "node": ">=18.0.0"
+  }
+}

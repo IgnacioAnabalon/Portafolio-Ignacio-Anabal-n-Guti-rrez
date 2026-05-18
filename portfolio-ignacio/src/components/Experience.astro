@@ -1,0 +1,180 @@
+---
+/**
+ * Experience.astro — Sección de Experiencia Laboral y Proyectos
+ *
+ * Para añadir más experiencias: agrega objetos al array `experiences`.
+ * Para añadir proyectos personales: agrega objetos al array `projects`.
+ * Cada item acepta un array de `tags` para las tecnologías usadas.
+ */
+
+interface ExperienceItem {
+  role: string;
+  company: string;
+  period: string;
+  type: "work" | "project";
+  responsibilities: string[];
+  tags: string[];
+  link?: string;
+}
+
+const experiences: ExperienceItem[] = [
+  {
+    role: "Desarrollador Web",
+    company: "Findraw Ltda.",
+    period: "01/2025 — 04/2025",
+    type: "work",
+    responsibilities: [
+      "Mantención y actualización de sitios web usando HTML, CSS y herramientas CMS.",
+      "Revisión del funcionamiento de páginas y corrección de errores básicos.",
+      "Uso de herramientas digitales de gestión y control de versiones.",
+    ],
+    tags: ["HTML", "CSS", "CMS", "Git"],
+  },
+];
+
+// ── Proyectos personales (agrega los tuyos aquí) ─────────────
+// const projects: ExperienceItem[] = [
+//   {
+//     role: "Proyecto Personal",
+//     company: "Nombre del Proyecto",
+//     period: "2024",
+//     type: "project",
+//     responsibilities: ["Descripción breve del proyecto."],
+//     tags: ["Astro", "Tailwind", "TypeScript"],
+//     link: "https://github.com/tu-usuario/proyecto",
+//   },
+// ];
+---
+
+<!-- ═══════════════════════════════════════════════════════════
+     EXPERIENCE SECTION
+     ═══════════════════════════════════════════════════════════ -->
+<section
+  id="experiencia"
+  class="relative py-24 lg:py-32 px-6 border-t border-zinc-800/50"
+>
+  <div class="max-w-6xl mx-auto">
+    <!-- Encabezado -->
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-4 animate-on-scroll">
+        <span class="font-mono text-xs text-teal-400 tracking-[0.2em] uppercase">
+          02 / Experiencia
+        </span>
+        <div class="w-12 h-px bg-zinc-800"></div>
+      </div>
+      <h2
+        class="font-syne font-bold text-3xl sm:text-4xl text-slate-100 leading-tight animate-on-scroll"
+        data-delay="80"
+      >
+        Donde apliqué lo<br />
+        <span class="text-teal-400">aprendido.</span>
+      </h2>
+    </div>
+
+    <!-- Lista de experiencias -->
+    <div class="space-y-6">
+      {
+        experiences.map((exp, index) => (
+          <article
+            class="group relative border border-zinc-800 bg-zinc-900/30 hover:bg-zinc-900/60 hover:border-zinc-700 p-6 sm:p-8 transition-all duration-400 animate-on-scroll"
+            data-delay={index * 120}
+          >
+            <!-- Indicador de línea izquierda al hacer hover -->
+            <div class="absolute left-0 top-6 bottom-6 w-0.5 bg-teal-500 opacity-0 group-hover:opacity-100 transition-opacity duration-300" />
+
+            <div class="flex flex-col sm:flex-row sm:items-start gap-4 sm:gap-6">
+              <!-- Ícono de tipo -->
+              <div class="flex-shrink-0 w-10 h-10 border border-zinc-700 bg-zinc-900 flex items-center justify-center text-teal-400">
+                {exp.type === "work" ? (
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z" />
+                  </svg>
+                ) : (
+                  <svg class="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 20l4-16m4 4l4 4-4 4M6 16l-4-4 4-4" />
+                  </svg>
+                )}
+              </div>
+
+              <!-- Contenido -->
+              <div class="flex-1 min-w-0">
+                <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2 mb-3">
+                  <div>
+                    <h3 class="font-syne font-semibold text-slate-100 text-xl">
+                      {exp.role}
+                    </h3>
+                    <p class="font-mono text-sm text-teal-400/80 mt-0.5">
+                      {exp.company}
+                    </p>
+                  </div>
+                  <div class="flex items-center gap-2">
+                    <span class="font-mono text-xs text-zinc-500 bg-zinc-900 border border-zinc-800 px-3 py-1 whitespace-nowrap">
+                      {exp.period}
+                    </span>
+                  </div>
+                </div>
+
+                <!-- Responsabilidades -->
+                <ul class="space-y-2 mb-5">
+                  {exp.responsibilities.map((item) => (
+                    <li class="flex items-start gap-3 text-sm text-zinc-400 leading-relaxed">
+                      <span class="text-teal-500 mt-0.5 flex-shrink-0">›</span>
+                      {item}
+                    </li>
+                  ))}
+                </ul>
+
+                <!-- Tags de tecnologías -->
+                <div class="flex flex-wrap gap-2">
+                  {exp.tags.map((tag) => (
+                    <span class="font-mono text-[11px] text-zinc-500 bg-zinc-900 border border-zinc-800 px-2.5 py-1 hover:border-teal-500/40 hover:text-teal-400 transition-colors duration-200">
+                      {tag}
+                    </span>
+                  ))}
+                </div>
+
+                <!-- Link opcional al proyecto -->
+                {exp.link && (
+                  <a
+                    href={exp.link}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="inline-flex items-center gap-2 mt-4 font-mono text-xs text-teal-400 hover:text-teal-300 transition-colors"
+                  >
+                    Ver proyecto
+                    <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+                      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14" />
+                    </svg>
+                  </a>
+                )}
+              </div>
+            </div>
+          </article>
+        ))
+      }
+    </div>
+
+    <!-- Placeholder: "Más proyectos en GitHub" -->
+    <div class="mt-8 animate-on-scroll" data-delay="200">
+      <a
+        href="https://github.com/tu-usuario"
+        target="_blank"
+        rel="noopener noreferrer"
+        class="group flex items-center justify-center gap-3 w-full border border-dashed border-zinc-800 hover:border-teal-500/40 bg-zinc-900/20 hover:bg-zinc-900/40 py-5 text-zinc-600 hover:text-teal-400 transition-all duration-300 font-mono text-sm"
+      >
+        <svg class="w-4 h-4" fill="currentColor" viewBox="0 0 24 24">
+          <path d="M12 0C5.374 0 0 5.373 0 12c0 5.302 3.438 9.8 8.207 11.387.599.111.793-.261.793-.577v-2.234c-3.338.726-4.033-1.416-4.033-1.416-.546-1.387-1.333-1.756-1.333-1.756-1.089-.745.083-.729.083-.729 1.205.084 1.839 1.237 1.839 1.237 1.07 1.834 2.807 1.304 3.492.997.107-.775.418-1.305.762-1.604-2.665-.305-5.467-1.334-5.467-5.931 0-1.311.469-2.381 1.236-3.221-.124-.303-.535-1.524.117-3.176 0 0 1.008-.322 3.301 1.23A11.509 11.509 0 0112 5.803c1.02.005 2.047.138 3.006.404 2.291-1.552 3.297-1.23 3.297-1.23.653 1.653.242 2.874.118 3.176.77.84 1.235 1.911 1.235 3.221 0 4.609-2.807 5.624-5.479 5.921.43.372.823 1.102.823 2.222v3.293c0 .319.192.694.801.576C20.566 21.797 24 17.3 24 12c0-6.627-5.373-12-12-12z"/>
+        </svg>
+        Ver más proyectos en GitHub
+        <svg class="w-3 h-3 transition-transform duration-300 group-hover:translate-x-1" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+          <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17 8l4 4m0 0l-4 4m4-4H3"/>
+        </svg>
+      </a>
+    </div>
+  </div>
+
+  <!-- Número decorativo -->
+  <div class="hidden xl:block absolute right-12 bottom-12 font-syne font-extrabold text-[10rem] leading-none text-zinc-900 select-none pointer-events-none">
+    03
+  </div>
+</section>

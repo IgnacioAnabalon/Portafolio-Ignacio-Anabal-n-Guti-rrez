@@ -1,0 +1,161 @@
+---
+/**
+ * Skills.astro — Sección de Habilidades Técnicas (Tech Stack)
+ *
+ * Para añadir más categorías: agrega un objeto al array `skillGroups`.
+ * Para añadir skills a una categoría: agrega strings al array `skills`.
+ * El nivel (level) es del 1 al 5 y controla la barra de progreso visual.
+ */
+
+interface Skill {
+  name: string;
+  level: 1 | 2 | 3 | 4 | 5;
+}
+
+interface SkillGroup {
+  category: string;
+  icon: string; // SVG como string
+  skills: Skill[];
+}
+
+const skillGroups: SkillGroup[] = [
+  {
+    category: "Frontend",
+    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.75 17L9 20l-1 1h8l-1-1-.75-3M3 13h18M5 17h14a2 2 0 002-2V5a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"/></svg>`,
+    skills: [
+      { name: "HTML", level: 5 },
+      { name: "CSS", level: 4 },
+      { name: "JavaScript", level: 3 },
+      { name: "Astro", level: 3 },
+      { name: "Tailwind CSS", level: 4 },
+      { name: "Diseño Web", level: 4 },
+    ],
+  },
+  {
+    category: "Backend & Bases de Datos",
+    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M5 12h14M5 12a2 2 0 01-2-2V6a2 2 0 012-2h14a2 2 0 012 2v4a2 2 0 01-2 2M5 12a2 2 0 00-2 2v4a2 2 0 002 2h14a2 2 0 002-2v-4a2 2 0 00-2-2m-2-4h.01M17 16h.01"/></svg>`,
+    skills: [
+      { name: "Python", level: 3 },
+      { name: "MySQL", level: 3 },
+    ],
+  },
+  {
+    category: "Herramientas & CMS",
+    icon: `<svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M10.325 4.317c.426-1.756 2.924-1.756 3.35 0a1.724 1.724 0 002.573 1.066c1.543-.94 3.31.826 2.37 2.37a1.724 1.724 0 001.065 2.572c1.756.426 1.756 2.924 0 3.35a1.724 1.724 0 00-1.066 2.573c.94 1.543-.826 3.31-2.37 2.37a1.724 1.724 0 00-2.572 1.065c-.426 1.756-2.924 1.756-3.35 0a1.724 1.724 0 00-2.573-1.066c-1.543.94-3.31-.826-2.37-2.37a1.724 1.724 0 00-1.065-2.572c-1.756-.426-1.756-2.924 0-3.35a1.724 1.724 0 001.066-2.573c-.94-1.543.826-3.31 2.37-2.37.996.608 2.296.07 2.572-1.065z"/><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"/></svg>`,
+    skills: [
+      { name: "WordPress", level: 3 },
+      { name: "Git / GitHub", level: 3 },
+      { name: "CMS General", level: 3 },
+    ],
+  },
+];
+
+// Labels descriptivos para el nivel
+const levelLabel: Record<number, string> = {
+  1: "Básico",
+  2: "Elemental",
+  3: "Intermedio",
+  4: "Avanzado",
+  5: "Experto",
+};
+---
+
+<!-- ═══════════════════════════════════════════════════════════
+     SKILLS SECTION
+     ═══════════════════════════════════════════════════════════ -->
+<section
+  id="habilidades"
+  class="relative py-24 lg:py-32 px-6 border-t border-zinc-800/50"
+>
+  <div class="max-w-6xl mx-auto">
+    <!-- Encabezado -->
+    <div class="mb-16">
+      <div class="flex items-center gap-3 mb-4 animate-on-scroll">
+        <span class="font-mono text-xs text-teal-400 tracking-[0.2em] uppercase">
+          03 / Tech Stack
+        </span>
+        <div class="w-12 h-px bg-zinc-800"></div>
+      </div>
+      <h2
+        class="font-syne font-bold text-3xl sm:text-4xl text-slate-100 leading-tight animate-on-scroll"
+        data-delay="80"
+      >
+        Herramientas con las<br />
+        <span class="text-teal-400">que trabajo.</span>
+      </h2>
+    </div>
+
+    <!-- Grid de categorías de skills -->
+    <div class="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+      {
+        skillGroups.map((group, groupIndex) => (
+          <div
+            class="border border-zinc-800 bg-zinc-900/30 hover:bg-zinc-900/60 hover:border-zinc-700 p-6 transition-all duration-300 animate-on-scroll"
+            data-delay={groupIndex * 120}
+          >
+            <!-- Header de categoría -->
+            <div class="flex items-center gap-3 mb-6 pb-4 border-b border-zinc-800">
+              <div class="text-teal-400" set:html={group.icon} />
+              <h3 class="font-syne font-semibold text-slate-200 text-sm">
+                {group.category}
+              </h3>
+            </div>
+
+            <!-- Lista de skills con barra de nivel -->
+            <ul class="space-y-4">
+              {group.skills.map((skill) => (
+                <li>
+                  <div class="flex items-center justify-between mb-1.5">
+                    <span class="font-mono text-sm text-slate-300">
+                      {skill.name}
+                    </span>
+                    <span class="font-mono text-[10px] text-zinc-600">
+                      {levelLabel[skill.level]}
+                    </span>
+                  </div>
+                  <!-- Barra de progreso -->
+                  <div class="h-1 bg-zinc-800 rounded-full overflow-hidden">
+                    <div
+                      class="h-full bg-gradient-to-r from-teal-500 to-teal-400 rounded-full transition-all duration-1000"
+                      style={`width: ${(skill.level / 5) * 100}%`}
+                    />
+                  </div>
+                </li>
+              ))}
+            </ul>
+          </div>
+        ))
+      }
+    </div>
+
+    <!-- Tags cloud adicional: "también conozco..." -->
+    <div class="mt-12 animate-on-scroll" data-delay="300">
+      <p class="font-mono text-xs text-zinc-600 uppercase tracking-widest mb-4">
+        También he trabajado con:
+      </p>
+      <div class="flex flex-wrap gap-2">
+        {
+          [
+            "VS Code",
+            "Figma (básico)",
+            "Linux",
+            "npm",
+            "Responsive Design",
+            "SEO básico",
+          ].map((tag) => (
+            <span class="font-mono text-xs text-zinc-500 border border-zinc-800 hover:border-zinc-700 hover:text-zinc-400 px-3 py-1.5 transition-colors duration-200 cursor-default">
+              {tag}
+            </span>
+          ))
+        }
+      </div>
+    </div>
+  </div>
+
+  <!-- Número decorativo -->
+  <div
+    class="hidden xl:block absolute right-12 bottom-12 font-syne font-extrabold text-[10rem] leading-none text-zinc-900 select-none pointer-events-none"
+  >
+    04
+  </div>
+</section>
